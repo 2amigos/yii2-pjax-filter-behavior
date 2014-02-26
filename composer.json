@@ -1,0 +1,22 @@
+{
+    "name": "2amigos/yii2-pjax-filter-behavior",
+    "description": "Yii2 filters that filters HTTP requests to ensure pjax calls.",
+    "keywords": ["yii", "extension", "behavior", "filter", "pjaxfilter"],
+    "type": "yii2-extension",
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Antonio Ramirez",
+            "email": "ramirez.cobos@gmail.com",
+            "homepage": "http://2amigos.us"
+        }
+    ],
+    "require": {
+        "yiisoft/yii2": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "dosamigos\\pjaxfilter\\": ""
+        }
+    }
+}

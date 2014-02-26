@@ -1,10 +1,8 @@
-ArrayQuery Component for Yii2
+PjaxFilter Behavior for Yii2
 =============================
-[![Latest Stable Version](https://poser.pugx.org/2amigos/yii2-arrayquery-component/v/stable.png)](https://packagist.org/packages/2amigos/yii2-arrayquery-component)
-[![Build Status](https://travis-ci.org/2amigos/yii2-arrayquery-component.png?branch=master)](https://travis-ci.org/2amigos/yii2-arrayquery-component)
 
-Allows searching/filtering of an array. This component is very useful when displaying array data in GridViews with an
-ArrayDataProvider.
+PjaxFilter is an action filter that ensures an action has been called using pjax calls and to configure what to do
+in case the controller's action has been called differently.
 
 Installation
 ------------
@@ -13,12 +11,12 @@ The preferred way to install this extension is through [composer](http://getcomp
 Either run
 
 ```
-php composer.phar require "2amigos/yii2-arrayquery-component" "*"
+php composer.phar require "2amigos/yii2-pjax-filter-behavior" "*"
 ```
 or add
 
 ```json
-"2amigos/yii2-arrayquery-component" : "*"
+"2amigos/yii2-pjax-filter-behavior" : "*"
 ```
 
 to the require section of your application's `composer.json` file.
@@ -26,28 +24,39 @@ to the require section of your application's `composer.json` file.
 Usage
 -----
 
-```
-\\ $models is the array elements to used with ArrayDataProvider
-
-$query = new ArrayQuery($models);
-
-$models = $query
-    ->addCondition('name', '~2amigos')
-    ->addCondition('name', 'cebe/yii2-gravatar', 'or')
-    ->find();
-
-$dataProvider = new ArrayDataProvider([
-    'allModels' => $models,
-    'pagination' => [
-        'pageSize' => 50,
-    ],
-    'sort' => [
-        'attributes' => [], // to be specified
-    ],
-]);
+To use PjaxFilter, declare it in `behaviors()` method of your controller class. For example, the following
+declarations will define full pjax filter for all controller's actions but the index action.
 
 ```
+public function behaviors()
+{
+    return [
+        'verbs' => [
+            'class' => \dosamigos\pjaxfilter\PjaxFilter::className(),
+            'actions' => [
+                '*'  => ['url' => ['index']],
+            ],
+            'exclude' => ['index']
+        ],
+    ];
+}
+```
+The next example, sets pjax filtering for controller's delete method and if not called via pjax, it will fire an
+error. The rest of the actions will not be affected.
 
+```
+public function behaviors()
+{
+    return [
+        'verbs' => [
+            'class' => \dosamigos\pjaxfilter\PjaxFilter::className(),
+            'actions' => [
+                'error' => ['code' => 404, 'msg' => 'Not found']
+            ]
+        ],
+    ];
+}
+```
 
 > [![2amigOS!](http://www.gravatar.com/avatar/55363394d72945ff7ed312556ec041e0.png)](http://www.2amigos.us)
 

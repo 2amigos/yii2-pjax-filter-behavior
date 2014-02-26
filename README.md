@@ -1,5 +1,5 @@
 PjaxFilter Behavior for Yii2
-=============================
+============================
 
 PjaxFilter is an action filter that ensures an action has been called using pjax calls and to configure what to do
 in case the controller's action has been called differently.
